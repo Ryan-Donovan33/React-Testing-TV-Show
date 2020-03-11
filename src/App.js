@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+
 import Dropdown from 'react-dropdown';
 import parse from 'html-react-parser';
 
 import { formatSeasons } from './utils/formatSeasons';
-import fetchShow from './api/fetchShow';
+import { fetchShow } from './api/fetchShow';
 
 import Episodes from './components/Episodes';
 import './styles.css';
@@ -30,9 +30,12 @@ export default function App() {
 	// }, []);
 
 	useEffect(() => {
-		fetchShow.then((res) => {
-			setShow(res.data);
-			setSeasons(formatSeasons(res.data._embedded.episodes));
+		// making the axios call in api directory and then passing in the entire data as res so I don't need to use res.data since that is what I set the data to be in fetchShow.
+
+		fetchShow().then((res) => {
+			// console.log(res);
+			setShow(res);
+			setSeasons(formatSeasons(res._embedded.episodes));
 		});
 	}, []);
 
